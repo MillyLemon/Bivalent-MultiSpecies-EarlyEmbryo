@@ -195,7 +195,18 @@ bamCoverage -b 2_cell_H3K27me3_rep1_f2q30_pmd.bam \
             --ignoreForNormalization chrX chrY chrM \
             --numberOfProcessors 4
 ```
+### 1.7 PCA quality control and sample filtering
+After peak calling, we used RPKM‑based PCA to assess replicate reproducibility. The PCA matrix was constructed by merging all broadPeak files into a union set, then calculating RPKM for each sample at each peak region.
 
+Region RPKM was calculated as:
+
+$$
+\text{Region RPKM} = \frac{\text{ReadsWithinRegion}}{\frac{\text{RegionLength}}{1000} \times \text{SampleReadsDepth}}
+$$
+where
+$$
+\text{SampleReadsDepth} = \frac{\text{SampleReads}}{1,000,000}
+$$
 
 
 
