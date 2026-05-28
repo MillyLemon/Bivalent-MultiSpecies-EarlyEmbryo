@@ -327,5 +327,28 @@ perl merge.geneinfo.pl Mus_musculus.GRCm38.102.gene2trans.info \
 The file `Mus_musculus.GRCm38.102.gene2trans.info` contains three tab‑separated columns:
 `ENSMUST00000082908 ENSMUSG00000064842 Gm26206`
 
+### 2.5 Merge ChIP‑seq peak annotation with gene expression
+```bash
+perl merge.chip.rna.pl 2_cell_H3K27me3.merged.Peak.annotate.filter \
+     mouse.GSE73952.gene.symbol.tpm \
+     > 2_cell_H3K27me3.merged.Peak.annotate.filter.exp
+```
+## 3. Gene classification of H3K27me3‑modified genes
+This method is based on the classification framework described in Young et al. (2011) Nucleic Acids Research, which categorises H3K27me3‑modified genes into three enrichment patterns: Promoter, TSS, and Broad.
 
+### 3.1 Classification logic
+Each gene is divided into three regions:
+
+-Promoter region: TSS upstream 3000 bp to TSS upstream 100 bp
+
+-TSS region: TSS upstream 100 bp to TSS downstream 1000 bp
+
+-Broad region: TSS downstream 1001 bp to gene termination site
+
+A 200 bp sliding window is used to smooth the coverage signal within each region, and the maximum peak height is determined for each region. Each gene is assigned to the region with the highest mean coverage, subject to the following criteria:
+1.Promoter: The peak in the promoter region must be at least 25% higher than the maximum peak in any other region.
+
+2.TSS: The peak in the TSS region must be at least 25% higher than the maximum peak in any other region.
+
+3.Broad: At least 35% of the base‑pair positions in the gene body must have a signal higher than the mean signal across the region (to exclude genes with a single sharp internal peak driving a high average).
 
