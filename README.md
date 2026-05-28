@@ -334,24 +334,24 @@ perl merge.chip.rna.pl 2_cell_H3K27me3.merged.Peak.annotate.filter \
      > 2_cell_H3K27me3.merged.Peak.annotate.filter.exp
 ```
 ## 3. Gene classification of H3K27me3‑modified genes
-This method is based on the classification framework described in Young et al. (2011) Nucleic Acids Research, which categorises H3K27me3‑modified genes into three enrichment patterns: Promoter, TSS, and Broad.
+This method is based on the classification framework described in **Young et al. (2011)** ***Nucleic Acids Research***, which categorises H3K27me3‑modified genes into three enrichment patterns: **Promoter**, **TSS**, and **Broad**.
 
 ### 3.1 Classification logic
 Each gene is divided into three regions:
 
-- Promoter region: TSS upstream 3000 bp to TSS upstream 100 bp
+- **Promoter region**: TSS upstream 3000 bp to TSS upstream 100 bp
 
-- TSS region: TSS upstream 100 bp to TSS downstream 1000 bp
+- **TSS region**: TSS upstream 100 bp to TSS downstream 1000 bp
 
-- Broad region: TSS downstream 1001 bp to gene termination site
+- **Broad region**: TSS downstream 1001 bp to gene termination site
 
 A 200 bp sliding window is used to smooth the coverage signal within each region, and the maximum peak height is determined for each region. Each gene is assigned to the region with the highest mean coverage, subject to the following criteria:
 
-1. Promoter: The peak in the promoter region must be at least 25% higher than the maximum peak in any other region.
+1. **Promoter**: The peak in the promoter region must be at least **25% higher** than the maximum peak in any other region.
 
-2. TSS: The peak in the TSS region must be at least 25% higher than the maximum peak in any other region.
+2. **TSS**: The peak in the TSS region must be at least **25% higher** than the maximum peak in any other region.
 
-3. Broad: At least 35% of the base‑pair positions in the gene body must have a signal higher than the mean signal across the region (to exclude genes with a single sharp internal peak driving a high average).
+3. **Broad**: At least **35%** of the base‑pair positions in the gene body must have a signal higher than the mean signal across the region (to exclude genes with a single sharp internal peak driving a high average).
 
 Genes shorter than 5000 bp are excluded as they are too small to reliably differentiate Broad from TSS profiles.
 
@@ -359,12 +359,25 @@ Genes shorter than 5000 bp are excluded as they are too small to reliably diff
 The core classification function is provided in `05_Gene_classification/classify_gene_core.R`. The full pipeline scripts (`ClassifyGenes.R` and `functions.R`) are also provided in the same directory.
 
 ### 3.3 Positive control validation
-To validate the reliability of our reconstructed classification pipeline, we used publicly available H3K27me3 ChIP‑seq data from Young et al. (2011) (GEO: GSE27970), comprising mouse ES cells (GSM691591, GSM691593) and G1ME cells (GSM691594, GSM691596).
+To validate the reliability of our reconstructed classification pipeline, we used publicly available H3K27me3 ChIP‑seq data from **Young et al. (2011)** (GEO: GSE27970), comprising mouse ES cells (GSM691591, GSM691593) and G1ME cells (GSM691594, GSM691596).
 
 Validation steps and results are documented in `06_Positive_control/`. Our pipeline successfully reproduced the three distribution patterns reported in the original publication, confirming its reliability for application to in vivo embryo data.
 
 ### 3.4 TSS/TES signal visualisation
 Signal distribution around transcription start sites (TSS) and transcription end sites (TES) for the three gene classes was generated using deepTools:
+```bash
+computeMatrix reference-point \
+    --referencePoint TSS \
+    -S merged_sample_uniform_25bp_CPM.bw \
+    -R broad_genes.trans.bed promoter_genes.trans.bed tss_genes.trans.bed \
+    -b 30000 -a 30000 \
+    --skipZeros \
+    -o sample_matrix_TSS.gz
+
+plotProfile -m sample_matrix_TSS.gz \
+    -out sample_TSS_profile.pdf \
+    --regionsLabel "Broad" "Promoter" "TSS"
+```
 
 ## 4. Bivalent domain analysis
 ### 4.1 Identification of bivalent peaks
@@ -379,13 +392,13 @@ Genes associated with each peak category were annotated using HOMER `annotatePea
 ### 4.3 Cross‑species comparison
 The same analysis pipeline was applied to all five species. Species‑specific adaptations (e.g., SICER2 `GenomeData.py` modifications, HOMER genome database installations) are documented in `07_Multi_species/`.
 ## 5. GO functional enrichment analysis
-Gene Ontology (GO) biological process enrichment analysis was performed using the R package clusterProfiler. Analyses were conducted separately for:
+Gene Ontology (GO) biological process enrichment analysis was performed using the R package **8clusterProfiler**. Analyses were conducted separately for:
 
-- Promoter + TSS (narrow peak) gene sets
+- **Promoter + TSS** (narrow peak) gene sets
 
-- Broad (broad domain) gene sets
+- **Broad** (broad domain) gene sets
 
-The Benjamini‑Hochberg method was used for multiple testing correction, with an adjusted P ≤ 0.05 considered statistically significant.
+The Benjamini‑Hochberg method was used for multiple testing correction, with an adjusted *P* ≤ 0.05 considered statistically significant.
 ```r
 library(clusterProfiler)
 
@@ -401,11 +414,11 @@ ego <- enrichGO(
 
 dotplot(ego, showCategory = 15) + ggtitle("GO Biological Process")
 ```
-For non‑model organisms (bovine, porcine), Ensembl gene IDs were converted to Entrez IDs using biomaRt before enrichment analysis. Species‑specific annotation databases used were: 
+For non‑model organisms (bovine, porcine), Ensembl gene IDs were converted to Entrez IDs using **biomaRt** before enrichment analysis. Species‑specific annotation databases used were: 
 `org.Mm.eg.db` (mouse), `org.Hs.eg.db` (human), `org.Rn.eg.db `(rat), `org.Bt.eg.db` (bovine), `org.Ss.eg.db` (porcine).
 
 ## 6. Transcription factor motif enrichment analysis
-Motif enrichment analysis was performed using HOMER (`findMotifsGenome.pl`). The analysis was conducted on peak regions associated with Promoter + TSS and Broad gene sets respectively.
+Motif enrichment analysis was performed using **HOMER** (`findMotifsGenome.pl`). The analysis was conducted on peak regions associated with Promoter + TSS and Broad gene sets respectively.
 ```bash
 # Combine promoter and TSS gene BED files
 cat promoter_genes.bed tss_genes.bed > promoter_tss_combined.bed
@@ -418,7 +431,7 @@ findMotifsGenome.pl promoter_tss_combined.bed \
     -mask \
     -p 4
 ```
-**Parameters**: Analysis window 200 bp; significance threshold P < 1 × 10⁻¹²; fold enrichment > 9.
+**Parameters**: Analysis window 200 bp; significance threshold *P* < 1 × 10⁻¹²; fold enrichment > 9.
 
 **Key result:** Transcription factors **ZNF135**, **ZBTB18**, **NR4A2**, and **PRDM1** were identified as significantly enriched in the regulatory regions of Promoter/TSS (narrow‑peak) genes, with their binding motifs co‑localising with H3K27me3 narrow peaks at key developmental gene loci.
 
@@ -436,11 +449,11 @@ The network construction and visualisation code is provided in `09_Network_and_m
 ## 8. Multi‑species adaptations
 Species‑specific configurations required for extending the pipeline beyond mouse are documented in `07_Multi_species/`. Key adaptations include:
 
-- SICER2: Adding chromosome information for rn6 and bosTau9 in `GenomeData.py`
+- **SICER2**: Adding chromosome information for rn6 and bosTau9 in `GenomeData.py`
 
-- HOMER: Installing genome databases for hg38, rn6, susScr11; manual installation of bosTau9 via `loadGenome.pl` with chromosome prefix correction
+- **HOMER**: Installing genome databases for hg38, rn6, susScr11; manual installation of bosTau9 via `loadGenome.pl` with chromosome prefix correction
 
-- Salmon indexing: Generating decoy‑aware transcriptome indices for each species
+- **Salmon indexing**: Generating decoy‑aware transcriptome indices for each species
 
 ## Repository structure
 ```
@@ -467,4 +480,4 @@ embryonic development across multiple species. Master's Thesis, Shandong Medical
 ## Contact
 For questions or collaborations, please open an issue on this repository.
 ## License
-This project is licensed under the MIT License – see the LICENSE file for details.
+This project is licensed under the MIT License – see the `LICENSE` file for details.
