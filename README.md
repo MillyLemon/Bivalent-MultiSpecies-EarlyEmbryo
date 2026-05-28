@@ -353,3 +353,39 @@ A 200 bp sliding window is used to smooth the coverage signal within each regi
 
 3. Broad: At least 35% of the base‑pair positions in the gene body must have a signal higher than the mean signal across the region (to exclude genes with a single sharp internal peak driving a high average).
 
+Genes shorter than 5000 bp are excluded as they are too small to reliably differentiate Broad from TSS profiles.
+
+### 3.2 Core classification code
+The core classification function is provided in `05_Gene_classification/classify_gene_core.R`. The full pipeline scripts (`ClassifyGenes.R` and `functions.R`) are also provided in the same directory.
+
+### 3.3 Positive control validation
+To validate the reliability of our reconstructed classification pipeline, we used publicly available H3K27me3 ChIP‑seq data from Young et al. (2011) (GEO: GSE27970), comprising mouse ES cells (GSM691591, GSM691593) and G1ME cells (GSM691594, GSM691596).
+
+Validation steps and results are documented in 06_Positive_control/. Our pipeline successfully reproduced the three distribution patterns reported in the original publication, confirming its reliability for application to in vivo embryo data.
+
+### 3.4 TSS/TES signal visualisation
+Signal distribution around transcription start sites (TSS) and transcription end sites (TES) for the three gene classes was generated using deepTools:
+```bash
+computeMatrix reference-point \
+    --referencePoint TSS \
+    -S merged_sample_uniform_25bp_CPM.bw \
+    -R broad_genes.trans.bed promoter_genes.trans.bed tss_genes.trans.bed \
+    -b 30000 -a 30000 \
+    --skipZeros \
+    -o sample_matrix_TSS.gz
+
+plotProfile -m sample_matrix_TSS.gz \
+    -out sample_TSS_profile.pdf \
+    --regionsLabel "Broad" "Promoter" "TSS"
+```
+## 4. Bivalent domain analysis
+### 4.1 Identification of bivalent peaks
+Bivalent domains were identified as regions where H3K4me3 and H3K27me3 peaks overlap by at least 1 bp, using HOMER `mergePeaks -d given`. Peaks were then classified into three categories:
+
+- H3K27me3 monovalent (K27‑only)
+
+- H3K4me3 monovalent (K4‑only)
+
+- Bivalent (co‑marked)
+
+
