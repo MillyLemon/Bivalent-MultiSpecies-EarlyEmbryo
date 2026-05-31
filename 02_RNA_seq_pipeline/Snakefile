@@ -1,0 +1,58 @@
+configfile: 'config.json'
+
+import pandas as pd
+import glob
+import os
+
+r1_files = glob.glob("fastq/*_1.fastq.gz")
+srr = [os.path.basename(f).replace('_1.fastq.gz', '') for f in r1_files]
+
+rule all:
+    input:
+        expand('fastp_fq/{sample}_r1_trimmed.fq.gz', sample=srr),
+        expand('fastp_fq/{sample}_r2_trimmed.fq.gz', sample=srr),
+        expand('fastp_report/{sample}_fastp.html', sample=srr),
+        expand('salmon_output/{sample}/quant.sf', sample=srr),
+        expand('salmon_output/{sample}/salmon.done', sample=srr)
+
+rule trim:
+    input:
+        r1='fastq/{sample}_1.fastq.gz',
+        r2='fastq/{sample}_2.fastq.gz'
+    output:
+        r1='fastp_fq/{sample}_r1_trimmed.fq.gz',
+        r2='fastp_fq/{sample}_r2_trimmed.fq.gz',
+        qc='fastp_report/{sample}_fastp.html'
+    log:
+        'log/fastp/{sample}.log'
+    threads: 16
+    shell:
+        ''' fastp -w {threads} -l 25 -x -g \
+            --detect_adapter_for_pe \
+            -i {input.r1} -I {input.r2} \
+            -o {output.r1} -O {output.r2} \
+            -h {output.qc} -j /dev/null > {log}
+        '''
+
+rule quant:
+    input:
+        r1='fastp_fq/{sample}_r1_trimmed.fq.gz',
+        r2='fastp_fq/{sample}_r2_trimmed.fq.gz'
+    output:
+        'salmon_output/{sample}/quant.sf',
+        touch('salmon_output/{sample}/salmon.done')
+    log:
+        'log/salmon/{sample}.log'
+    threads: 16
+    params:
+        idx=config['idx'],
+        gm=config['gm'],
+        libtype=config['libtype']
+    shell:
+        ''' salmon quant -i {params.idx} -g {params.gm} \
+            -p {threads} -l {params.libtype} \
+            --seqBias --gcBias \
+            --validateMappings --writeUnmappedNames \
+            -1 {input.r1} -2 {input.r2} -o salmon_output/{wildcards.sample} \
+            > {log} && gzip salmon_output/{wildcards.sample}/aux_info/unmapped_names.txt
+        '''
