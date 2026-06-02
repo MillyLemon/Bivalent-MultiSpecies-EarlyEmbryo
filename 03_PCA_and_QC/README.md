@@ -62,6 +62,7 @@ This ensures broad domains (e.g. H3K27me3) and sharp peaks (e.g. H3K4me3) are co
 |------|------|------|
 |RPKM ≥ 0.5	|Background noise filter|Removes low‑abundance unreliable signals|
 |Present in ≥ 2 samples|	Replicate consistency	|Excludes peaks detected in only one sample|
+
 These thresholds were chosen based on RPKM distribution histograms (see `histogram_rpkm.R`), combined with published ChIP‑seq filtering standards.
 ### Key QC findings
 Outlier removed: 4cell_H3K4me3_rep2 in mouse dataset GSE73952 was excluded based on PCA position and IGV visual inspection showing consistently low genome‑wide signal
