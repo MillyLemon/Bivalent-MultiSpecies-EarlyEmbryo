@@ -1,0 +1,13 @@
+sample  GeneCounts      Group
+4cell3PN_K27Me3 2419    k27_gene
+8cell2PN_K27Me3 867     k27_gene
+8cell3PN_K27Me3 3338    k27_gene
+ICM2PN_K27Me3   6726    k27_gene
+4cell3PN_K4Me3  16668   k4_gene
+8cell2PN_K4Me3  16391   k4_gene
+8cell3PN_K4Me3  15568   k4_gene
+ICM2PN_K4Me3    11294   k4_gene
+4cell3PN_biv    1869    biv_gene
+8cell2PN_biv    454     biv_gene
+8cell3PN_biv    3214    biv_gene
+ICM2PN_biv      1869    biv_gene

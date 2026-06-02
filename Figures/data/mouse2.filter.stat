@@ -1,0 +1,16 @@
+sample	PeakCounts	Group
+PN5zygote_K27Me3	11932	k27_monovalent
+PN5zygote_K4Me3	34703	k4_monovalent
+PN5zygote_biv	397	bivalent
+2-cellearly_K27Me3	7777	k27_monovalent
+2-cellearly_K4Me3	28237	k4_monovalent
+2-cellearly_biv	270	bivalent
+2-celllate_K27Me3	16122	k27_monovalent
+2-celllate_K4Me3	27466	k4_monovalent
+2-celllate_biv	1120	bivalent
+8-cell_K27Me3	40587	k27_monovalent
+8-cell_K4Me3	22206	k4_monovalent
+8-cell_biv	1611	bivalent
+ICM_K27Me3	25030	k27_monovalent
+ICM_K4Me3	21158	k4_monovalent
+ICM_biv	2469	bivalent

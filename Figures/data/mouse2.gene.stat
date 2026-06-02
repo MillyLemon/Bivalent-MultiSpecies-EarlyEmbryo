@@ -1,0 +1,16 @@
+sample  GeneCounts      Group
+2-cellearly_K27Me3      2867    k27_gene
+2-celllate_K27Me3       4920    k27_gene
+8-cell_K27Me3   7091    k27_gene
+ICM_K27Me3      6771    k27_gene
+PN5zygote_K27Me3        3999    k27_gene
+2-cellearly_K4Me3       14012   k4_gene
+2-celllate_K4Me3        14207   k4_gene
+8-cell_K4Me3    13070   k4_gene
+ICM_K4Me3       12023   k4_gene
+PN5zygote_K4Me3 14198   k4_gene
+2-cellearly_biv 253     biv_gene
+2-celllate_biv  965     biv_gene
+8-cell_biv      1342    biv_gene
+ICM_biv 2178    biv_gene
+PN5zygote_biv   340     biv_gene

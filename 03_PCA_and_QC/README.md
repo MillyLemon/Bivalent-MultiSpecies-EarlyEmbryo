@@ -7,8 +7,8 @@ PCA‑based quality control for ChIP‑seq samples across five species. This mod
 | 2 | prepare_k4_matrix.sh / prepare_k27_matrix.sh | sorted BED files |
 | 3 | bedtools merge | merged_peak_union.bed |
 | 4 | bedtools coverage | coverage_matrix.txt |
-| 5 | pca_rpkm.R | RPKM calculation → PCA plots |
-| 6 | histogram_rpkm.R | RPKM histograms |
+| 5 | Figures/Figure_3-01_PCA.R | RPKM calculation → PCA plots |
+| 6 | Figures/histogram_rpkm.R | RPKM histograms |
 
 
 ## Directory contents
@@ -18,8 +18,8 @@ PCA‑based quality control for ChIP‑seq samples across five species. This mod
 | `prepare_k4_matrix.sh` | Preprocess H3K4me3 data: scoreisland → union BED → coverage matrix |
 | `prepare_k27_matrix.sh` | Preprocess H3K27me3 data: scoreisland → union BED → coverage matrix |
 | `run_all_preprocessing.sh` | Master script to run both K4 and K27 preprocessing |
-| `pca_rpkm.R` | Main PCA analysis: RPKM calculation, PCA decomposition, and plotting |
-| `histogram_rpkm.R` | RPKM distribution histograms for threshold determination |
+| `Figures/Figure_3-01_PCA.R` | Main PCA analysis: RPKM calculation, PCA decomposition, and plotting |
+| `Figures/histogram_rpkm.R` | RPKM distribution histograms for threshold determination |
 
 ## Usage
 
@@ -43,7 +43,7 @@ The coverage matrix has one column per sample and one row per peak region in the
 
 ### Step 2: PCA analysis
 `r
-source("pca_rpkm.R")
+source("Figure_3-01_PCA.R")
 `
 ### Step 3: Histogram analysis
 `r
@@ -76,7 +76,5 @@ Shell: bash, bedtools v2.30.0
 
 R: ≥ 4.0.2 with packages: ggplot2, ggrepel, FactoMineR, factoextra, pheatmap, reshape2, dplyr, tidyr
 
-### Related figure
-Figure 3-1: PCA clustering of H3K4me3 and H3K27me3 samples
-
-Appendix Figures A2-A3: RPKM distribution histograms
+## Figure code
+The R scripts for PCA visualisation and RPKM histograms (Figure 3-1, Appendix Figures A2-A3) are located in the `Figures/` directory.

@@ -1,0 +1,13 @@
+sample	PeakCounts	Group
+4cell_3PN_K27Me3	3073	k27_monovalent
+4cell_3PN_K4Me3	32710	k4_monovalent
+4cell_3PN_biv	2140	bivalent
+8cell_2PN_K27Me3	1024	k27_monovalent
+8cell_2PN_K4Me3	23511	k4_monovalent
+8cell_2PN_biv	483	bivalent
+8cell_3PN_K27Me3	4303	k27_monovalent
+8cell_3PN_K4Me3	25379	k4_monovalent
+8cell_3PN_biv	3383	bivalent
+ICM_2PN_K27Me3	16162	k27_monovalent
+ICM_2PN_K4Me3	13923	k4_monovalent
+ICM_2PN_biv	2033	bivalent
