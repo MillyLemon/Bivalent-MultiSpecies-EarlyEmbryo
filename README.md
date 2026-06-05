@@ -466,7 +466,6 @@ Species‑specific configurations required for extending the pipeline beyond mou
 ├── 07_Multi_species/              # Species‑specific adaptations
 ├── 08_Motif_analysis/             # Transcription factor motif enrichment analysis
 ├── 09_Network_and_model/          # Integrated regulatory network and mechanistic model
-├── 10_Snakemake_ChIP_seq/         # Snakemake workflow for ChIP‑seq
 ├── Figures/                       # Code for generating main figures in the thesis
 ├── Files/                         # Required annotation and auxiliary files
 └── Packages/                      # Software packages and helper scripts

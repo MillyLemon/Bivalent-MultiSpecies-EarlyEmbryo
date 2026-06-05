@@ -1,0 +1,14 @@
+Figure 3-8A: IGV signal examples of three peak categories
+
+This figure was generated manually in IGV (Integrative Genomics Viewer).
+
+Steps:
+1. Load bigWig files for H3K4me3 and H3K27me3 of the target sample
+2. Load the corresponding broadPeak files (bivalent, K4-only, K27-only)
+3. Navigate to representative gene loci:
+   - Sfmbt2 (H3K27me3 monovalent)
+   - Sox21, Ascl1 (bivalent)
+   - Cdc16 (H3K4me3 monovalent)
+4. Take screenshots and assemble in Illustrator or PowerPoint
+
+No code is involved in generating this panel.
