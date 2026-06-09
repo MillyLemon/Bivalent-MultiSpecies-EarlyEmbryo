@@ -115,8 +115,6 @@ salmon v1.8.0
 deepTools v3.5.5
 ```
 
-All of them can be found in the `Packages` directory in this repository.
-
 ## 1. ChIP‑seq pipeline (using 2‑cell H3K27me3 rep1 as an example)
 
 ### 1.1 Data quality control
